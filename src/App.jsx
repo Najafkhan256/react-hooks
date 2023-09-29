@@ -1,40 +1,62 @@
-import { useEffect, useLayoutEffect, useState } from "react";
+/**
+ * The above code is a React application that uses the useContext hook to create a counter with
+ * increment and decrement functionality.
+ * @returns The App component is returning the CounterProvider component, which wraps the
+ * IncrementCounter and DecrementCounter components.
+ */
+import { createContext, useContext, useState } from "react";
 import "./App.css";
 
-function App() {
-  const [Input, setInput] = useState("");
+const CounterContext = createContext();
+
+const CounterProvider = ({ children }) => {
   const [count, setCount] = useState(0);
 
-  // useEffect(() => {
-  //   function test() {
-  //     if (count === 0) {
-  //       setCount(Math.random() * 200);
-  //     }
-  //   }
-  //   test();
-  // }, [count]);
+  const increment = () => setCount((prevCount) => prevCount + 1);
+  const decrement = () => setCount((prevCount) => prevCount - 1);
 
-  useLayoutEffect(() => {
-    function test() {
-      if (count === 0) {
-        setCount(Math.random() * 200);
-      }
-    }
-    test();
-  }, [count]);
+  const contextValue = {
+    count,
+    increment,
+    decrement,
+  };
 
   return (
-    <>
-      <h2 onClick={() => setCount(0)}>useLayoutEffect Hook {count}</h2>
-      <h3>{Input}</h3>
-      <input
-        type="search"
-        name="search"
-        placeholder="Search here..."
-        value={Input}
-        onChange={(e) => setInput(e.target.value)}
-      />
-    </>
+    <CounterContext.Provider value={contextValue}>
+      {children}
+    </CounterContext.Provider>
+  );
+};
+
+const IncrementCounter = () => {
+  const { count, increment } = useContext(CounterContext);
+
+  return (
+    <div>
+      <h1>Count: {count}</h1>
+      <button onClick={increment}>Increment</button>
+    </div>
+  );
+};
+
+const DecrementCounter = () => {
+  const { count, decrement } = useContext(CounterContext);
+
+  return (
+    <div>
+      <h1>Count: {count}</h1>
+      <button onClick={decrement}>Decrement</button>
+    </div>
+  );
+};
+
+function App() {
+  return (
+    <CounterProvider>
+      <h2>useContext Hook</h2>
+      <IncrementCounter />
+      <DecrementCounter />
+    </CounterProvider>
   );
 }
 
