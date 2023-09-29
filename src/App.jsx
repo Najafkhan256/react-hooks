@@ -13,12 +13,26 @@ function App() {
   // 1- useState takes two paramaters first-one is variable and second-one is function
   // 2- using this when we clicked on button its re-render the Contact component as well
 
+  /**
+   * The Increment function uses the setCount hook to increment the count state variable by 1 three
+   * times.
+   */
+  function Increment() {
+    // setCount(count + 1);
+    // setCount(count + 1);
+    // setCount(count + 1);
+
+    setCount((prevCount) => prevCount + 1);
+    setCount((prevCount) => prevCount + 1);
+    setCount((prevCount) => prevCount + 1);
+  }
+
   return (
     <>
       <h2>useState</h2>
       <h3>{count}</h3>
       <Contact />
-      <button onClick={() => setCount(count + 1)}>Increment</button>
+      <button onClick={Increment}>Increment</button>
     </>
   );
 }
