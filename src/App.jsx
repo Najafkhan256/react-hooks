@@ -29,11 +29,10 @@ const CounterProvider = ({ children }) => {
 };
 
 const IncrementCounter = () => {
-  const { count, increment } = useContext(CounterContext);
+  const { increment } = useContext(CounterContext);
 
   return (
     <div>
-      <h1>Count: {count}</h1>
       <button onClick={increment}>Increment</button>
     </div>
   );
@@ -44,16 +43,27 @@ const DecrementCounter = () => {
 
   return (
     <div>
-      <h1>Count: {count}</h1>
-      <button onClick={decrement}>Decrement</button>
+      {count === 0 ? (
+        <button disabled style={{ opacity: "50px" }}>
+          Decrement
+        </button>
+      ) : (
+        <button onClick={decrement}>Decrement</button>
+      )}
     </div>
   );
+};
+
+const ShowResult = () => {
+  const { count } = useContext(CounterContext);
+  return <h2>{count}</h2>;
 };
 
 function App() {
   return (
     <CounterProvider>
       <h2>useContext Hook</h2>
+      <ShowResult />
       <IncrementCounter />
       <DecrementCounter />
     </CounterProvider>
