@@ -1,38 +1,38 @@
-import { useState } from "react";
-import reactLogo from "./assets/react.svg";
-import viteLogo from "/vite.svg";
+import { useEffect, useState } from "react";
 import "./App.css";
 
-const Contact = () => {
-  console.log("render contact");
-  return <h2>Contact</h2>;
-};
-
 function App() {
+  const [Input, setInput] = useState("");
   const [count, setCount] = useState(0);
-  // 1- useState takes two paramaters first-one is variable and second-one is function
-  // 2- using this when we clicked on button its re-render the Contact component as well
 
-  /**
-   * The Increment function uses the setCount hook to increment the count state variable by 1 three
-   * times.
-   */
-  function Increment() {
-    // setCount(count + 1);
-    // setCount(count + 1);
-    // setCount(count + 1);
+  /* The `useEffect` hook in React is used to perform side effects in functional components. In this
+case, the `useEffect` hook is being used to update the document title whenever the `Input` state
+changes. */
+  useEffect(() => {
+    // document.title = "updated title";
+    // document.title = Input;
+    // console.log("useEffect");
 
-    setCount((prevCount) => prevCount + 1);
-    setCount((prevCount) => prevCount + 1);
-    setCount((prevCount) => prevCount + 1);
-  }
+    const incrementer = setInterval(() => {
+      setCount((prevCount) => prevCount + 1);
+    }, 1000);
+
+    return () => clearInterval(incrementer);
+  }, []);
 
   return (
     <>
-      <h2>useState</h2>
-      <h3>{count}</h3>
-      <Contact />
-      <button onClick={Increment}>Increment</button>
+      <h2 onClick={() => setCount((prevCount) => prevCount + 1)}>
+        useState + useEffect Hook {count}
+      </h2>
+      <h3>{Input}</h3>
+      <input
+        type="search"
+        name="search"
+        placeholder="Search here..."
+        value={Input}
+        onChange={(e) => setInput(e.target.value)}
+      />
     </>
   );
 }
