@@ -1,23 +1,24 @@
-import {
-  createContext,
-  useContext,
-  useEffect,
-  useReducer,
-  useRef,
-  useState,
-} from "react";
+import { useMemo, useState } from "react";
 import "./App.css";
 
 function App() {
-  const hookRef = useRef();
+  const [count, setCount] = useState(0);
 
-  useEffect(() => {
-    console.log(hookRef.current.offsetHeight);
-  }, []);
+  const expenseCalculation = () => {
+    return Math.random() * 1000;
+  };
+
+  // const renderCalculationValue = useMemo(() => expenseCalculation(), []);
+  const renderCalculationValue = useMemo(() => expenseCalculation(), [count]);
 
   return (
     <>
-      <h2 ref={hookRef}>useRef Hook</h2>
+      <h2>useMemo Hook</h2>
+      <h3>{renderCalculationValue}</h3>
+      <h2>{count}</h2>
+      <button onClick={() => setCount((prevCount) => prevCount + 1)}>
+        Change expense
+      </button>
     </>
   );
 }
